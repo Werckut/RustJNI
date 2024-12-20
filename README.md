@@ -1,5 +1,7 @@
 # RustJNI
 
+[Русская версия README](https://github.com/Werckut/RustJNI/wiki/RU)
+
 ## jni_macro
 
 `jni_macro` is a macro library for simplifying JNI (Java Native Interface) work in Rust. It allows you to easily create functions that can be called from Java by automatically generating the necessary code for interaction between Rust and Java. This simplifies the creation of native methods and helps you avoid writing boilerplate code manually.
