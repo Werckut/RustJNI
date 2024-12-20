@@ -2,26 +2,25 @@
 
 ## jni_macro
 
-`jni_macro` — это библиотека макросов для упрощения работы с JNI (Java Native Interface) в Rust. Она позволяет вам легко создавать функции для вызова из Java, автоматически генерируя нужный код для взаимодействия между Rust и Java. Это упрощает создание нативных методов и помогает избежать написания шаблонного кода вручную.
+`jni_macro` is a macro library for simplifying JNI (Java Native Interface) work in Rust. It allows you to easily create functions that can be called from Java by automatically generating the necessary code for interaction between Rust and Java. This simplifies the creation of native methods and helps you avoid writing boilerplate code manually.
 
-## Описание
+## Description
 
-Библиотека предоставляет макросы для упрощения создания JNI-совместимых методов в Rust. С помощью макросов вы можете автоматически генерировать необходимый код для работы с JNI, что значительно упрощает поддержку и разработку кода, взаимодействующего с Java. Макросы преобразуют методы Rust в формат, понятный Java, автоматически создавая нужные обертки и учитывая особенности синтаксиса JNI.
+This library provides macros for simplifying the creation of JNI-compatible methods in Rust. With these macros, you can automatically generate the required code to work with JNI, making it significantly easier to maintain and develop code that interacts with Java. The macros convert Rust methods into a format that Java can understand, automatically creating the necessary wrappers and taking into account JNI syntax.
 
-**Важно:** Используя макросы, переменные `env` и `class` все еще присутствуют в теле метода, и компиляция пройдет успешно. Однако на данный момент IDE (например, IntelliJ IDEA или Rust Rover) не могут корректно определить эти переменные и могут подсвечивать их как ошибочные. Важно помнить, что это не повлияет на компиляцию и выполнение программы, так как компилятор Rust знает, что эти переменные существуют. В будущем возможно улучшение поддержки макросов в IDE.
+**Important:** When using the macros, the `env` and `class` variables are still present in the method body, and the compilation will succeed. However, currently, IDEs (such as IntelliJ IDEA or Rust Rover) may not correctly recognize these variables and may highlight them as errors. It is important to note that this will not affect compilation or the execution of the program, as the Rust compiler knows that these variables exist. In the future, IDE support for macros may improve.
 
-## Установка
+## Installation
 
-Чтобы добавить `jni_macro` в свой проект, добавьте следующую строку в файл `Cargo.toml` вашего проекта:
+To add `jni_macro` to your project, add the following line to your project's `Cargo.toml` file:
 
 ```toml
 [dependencies]
 jni_macro = "1.0.1"
 ```
 
-## Пример использования
-
-Пример с использованием макроса `#[jni_method]` для создания нативных методов:
+## Example Usage
+Here is an example using the `#[jni_method]` macro to create native methods:
 
 ```rust
 #[jni_method("org.company.RustCalculator")]
@@ -40,7 +39,7 @@ pub fn sqrt_fn(a: jdouble) -> jdouble {
 }
 ```
 
-Без использования макроса вам пришлось бы писать такие методы вручную:
+Without using the macro, you would have to write these methods manually as follows:
 
 ```rust
 #[no_mangle]
@@ -73,12 +72,14 @@ pub extern "C" fn Java_org_company_RustCalculator_sqrtFn(
 }
 ```
 
+On the Java side, you would use the methods like this:
+
 ```java
 static {
-    System.loadLibrary("native_rust");  // Подключаем нашу библиотеку
+    System.loadLibrary("native_rust");  // Load our library
 }
 
 public native double add(double a, double b);
 public native double div(double a, double b);
-public native double sqrtFn(double a);  // Макрос преобразует имя из snake_case в camelCase
+public native double sqrtFn(double a);  // The macro converts the name from snake_case to camelCase
 ```
